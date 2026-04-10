@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIVANSH | CRIMSON_CORE_v4.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-engine@2/tsparticles.engine.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-basic@2/tsparticles.basic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-interaction-particles-links@2/tsparticles.interaction.particles.links.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-move-base@2/tsparticles.move.base.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-shape-circle@2/tsparticles.shape.circle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-updater-color@2/tsparticles.updater.color.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-updater-opacity@2/tsparticles.updater.opacity.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-updater-size@2/tsparticles.updater.size.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --neon-blue: #00f2ff;
+            --deep-blue: #0a0e1a;
+            --dark-blue: #020617;
+            --neon-purple: #bc13fe;
+        }
+
+        body {
+            background-color: var(--dark-blue);
+            color: #e2e8f0;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        .header-font { font-family: 'Syncopate', sans-serif; }
+
+        /* Animated Deep Space Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #020617 100%);
+            z-index: -2;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.15;
+            z-index: -1;
+            animation: drift 60s linear infinite;
+        }
+
+        @keyframes drift {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        /* Glassmorphism Card (Blue Theme) */
+        .glass-panel {
+            background: rgba(10, 14, 26, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-panel:hover {
+            border-color: var(--neon-blue);
+            transform: perspective(1000px) translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
+        }
+
+        /* Skill Hexagon Tag */
+        .skill-tag {
+            background: rgba(0, 242, 255, 0.1);
+            border-left: 3px solid var(--neon-blue);
+            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+            padding: 4px 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--neon-blue);
+            margin: 4px;
+            display: inline-block;
+        }
+
+        /* Glitch Animation Blue */
+        .glitch-text:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 0 var(--neon-purple), -2px 0 0 var(--neon-blue); }
+            20% { text-shadow: -2px 0 0 var(--neon-purple), 2px 0 0 var(--neon-blue); }
+            40% { text-shadow: 2px -2px 0 var(--neon-purple), -2px 2px 0 var(--neon-blue); }
+            60% { text-shadow: -2px 2px 0 var(--neon-purple), 2px -2px 0 var(--neon-blue); }
+            80% { text-shadow: 2px 2px 0 var(--neon-purple), -2px -2px 0 var(--neon-blue); }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+
+        /* Progress Elements */
+        .progress-ring { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--dark-blue); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 10px; }
+
+        /* Project row boxes */
+        .project-row-box {
+            position: relative;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .project-row-box:hover, .project-row-box.active {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+
+        /* Descriptions Cycling Panel */
+        .descriptions-cycle-panel {
+            background: rgba(5, 5, 10, 0.9);
+            border: 2px solid var(--deep-blue);
+            transition: all 0.5s ease;
+        }
+
+        /* Cycle animation for text and image */
+        .descriptions-cycle-panel.fade {
+            opacity: 0.5;
+            transform: translateY(10px);
+        }
+
+        /* Big end sections */
+        .big-section {
+            padding: 5rem 2rem;
+            border: 2px solid rgba(0, 242, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bg-canvas"></div>
+    <div class="stars"></div>
+
+    <nav class="fixed top-0 w-full z-50 p-4 lg:p-6 flex justify-between items-center bg-gradient-to-b from-black to-transparent border-b border-cyan-900/30">
+        <div class="header-font text-xl font-bold tracking-tighter">
+            <span class="text-cyan-400">S.K.</span>SINGH
+        </div>
+        <div class="hidden lg:flex gap-8 text-xs header-font tracking-widest font-bold">
+            <a href="#hero" class="text-gray-400 hover:text-cyan-500 transition-colors">01_BIO</a>
+            <a href="#skills" class="text-gray-400 hover:text-cyan-500 transition-colors">02_SKILLS</a>
+            <a href="#experience" class="text-gray-400 hover:text-cyan-500 transition-colors">03_XP</a>
+            <a href="#game-projects" class="text-gray-400 hover:text-cyan-500 transition-colors">04_GAMES</a>
+            <a href="#tech-projects" class="text-gray-400 hover:text-cyan-500 transition-colors">05_TECH</a>
+            <a href="#achievements" class="text-gray-400 hover:text-cyan-500 transition-colors">06_CHRONICLES</a>
+            <a href="#contact" class="text-gray-400 hover:text-cyan-500 transition-colors">07_COMMS</a>
+        </div>
+        <div class="flex gap-4">
+            <a href="https://www.linkedin.com/in/shivansh-kumar-singh-686502253" target="_blank" class="text-gray-400 hover:text-cyan-500"><i class="fab fa-linkedin text-lg"></i></a>
+            <a href="https://github.com/SHIVANSH7440" target="_blank" class="text-gray-400 hover:text-cyan-500"><i class="fab fa-github text-lg"></i></a>
+            <a href="https://shivanshkumarsingh8.artstation.com/" target="_blank" class="text-gray-400 hover:text-cyan-500"><i class="fab fa-artstation text-lg"></i></a>
+        </div>
+    </nav>
+
+    <section id="hero" class="min-h-screen flex flex-col justify-center items-center px-4 pt-24 text-center">
+        <p class="header-font text-cyan-400 text-xs md:text-sm tracking-[0.5em] mb-4 animate-pulse uppercase">
+            > INITIATING BIO-LINK // GREETINGS, ENTITY // v4.0
+        </p>
+        
+        <div class="relative w-60 h-60 md:w-60 md:h-60 mx-auto mb-6 rounded-full border-4 border-cyan-600 shadow-xl overflow-hidden group">
+            <img src="D:\My folder\Web Portfolio\Shivansh1.jpg" alt="Shivansh" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+            <div class="absolute inset-0 rounded-full border-2 border-dashed border-purple-500 animate-spin-slow"></div>
+        </div>
+
+        <h1 class="header-font text-5xl md:text-8xl font-black mb-2 tracking-tighter glitch-text text-white">SHIVANSH</h1>
+        <h2 class="header-font text-3xl md:text-5xl font-light text-cyan-400 tracking-widest mb-10">KUMAR SINGH</h2>
+        
+        <div class="glass-panel p-8 rounded-2xl relative max-w-5xl mx-auto mb-16 text-left">
+            <div class="absolute -top-3 left-8 bg-cyan-600 text-white text-xs font-bold px-3 py-1 uppercase tracking-widest header-font">Identity Matrix Summary</div>
+            <p class="text-slate-300 leading-relaxed">
+                <span class="font-bold text-cyan-200">Welcome to Crimson\_Core interface.</span> I am a highly motivated B.Tech (2026 Passout) Computer Science Engineer (B.Tech 2026) seeking a Software Engineer Intern role, Bridging the gap between creative Unreal Engine game development (1+ year exp, Blender expert) and detail-oriented Computer Science Engineering. independently managed published game pipeline from assets and level design to logic, and SQL (MySQL), seeking intensive learning environment in software eng roles while leveraging game dev expertise.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16">
+            <div class="glass-panel p-6 rounded-tl-3xl text-left">
+                <i class="fas fa-gamepad text-3xl text-cyan-400 mb-4"></i>
+                <h4 class="header-font text-sm font-bold mb-2">GAME DEV SPECIALIST</h4>
+                <p class="text-xs text-slate-400 uppercase tracking-tighter leading-relaxed">Unreal Engine Blueprint & C++ Logic | Blender Expert | Mobile Publishing</p>
+            </div>
+            <div class="glass-panel p-6 text-left">
+                <i class="fas fa-terminal text-3xl text-purple-400 mb-4"></i>
+                <h4 class="header-font text-sm font-bold mb-2">SOFTWARE ENGINEER Intern</h4>
+                <p class="text-xs text-slate-400 uppercase tracking-tighter leading-relaxed">Strong DSA & OOPS Foundation | 200+ Solved Problems | Backend Scalability</p>
+            </div>
+            <div class="glass-panel p-6 rounded-br-3xl text-left">
+                <i class="fas fa-database text-3xl text-blue-400 mb-4"></i>
+                <h4 class="header-font text-sm font-bold mb-2">SYSTEM ARCHITECT</h4>
+                <p class="text-xs text-slate-400 uppercase tracking-tighter leading-relaxed">MySQL/NoSQL | Data Analytics Intern | Python/ML Implementation</p>
+            </div>
+        </div>
+        
+        <a href="#skills" class="header-font text-gray-500 hover:text-cyan-400 transition-colors uppercase text-xs tracking-widest animate-bounce">Scroll to Interface >></a>
+    </section>
+
+    <section id="skills" class="py-24 px-4 max-w-7xl mx-auto">
+        <div class="flex items-center gap-4 mb-16">
+            <h2 class="header-font text-3xl md:text-4xl font-bold tracking-tighter"><span class="text-cyan-400">02.</span> CORE_MATRIX</h2>
+            <div class="h- flex-grow bg-gradient-to-r from-cyan-600 to-transparent"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="glass-panel p-8 rounded-2xl border-t-4 border-t-cyan-400">
+                <h3 class="header-font text-lg font-bold mb-6 text-cyan-400"><i class="fas fa-terminal mr-2"></i> Logic / Core Concepts</h3>
+                <div class="flex flex-wrap mb-8">
+                    <span class="skill-tag">C</span>
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">C#</span>
+                    <span class="skill-tag">SQL (MySQL)</span>
+                    <span class="skill-tag">HTML/CSS</span>
+                </div>
+                <h3 class="header-font text-lg font-bold mt-10 mb-6 text-purple-400italic">Core Competencies</h3>
+                <div class="text-sm text-slate-300 grid grid-cols-2 gap-2 uppercase tracking-tighter">
+                    <div><i class="fas fa-check text-cyan-500 mr-2"></i> DSA</div>
+                    <div><i class="fas fa-check text-cyan-500 mr-2"></i> OOPS</div>
+                    <div><i class="fas fa-check text-cyan-500 mr-2"></i> Agile</div>
+                    <div><i class="fas fa-check text-cyan-500 mr-2"></i> ML/AIML</div>
+                    <div><i class="fas fa-check text-cyan-500 mr-2"></i> OpenCV</div>
+                    <div><i class="fas fa-check text-cyan-500 mr-2"></i> Level Design</div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl border-t-4 border-t-purple-400">
+                <h3 class="header-font text-lg font-bold mb-6 text-purple-400"><i class="fas fa-gamepad mr-2"></i> GAME_PIPELINE</h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-xs mb-1 font-bold"><span>UNREAL ENGINE 5/4</span><span>85%</span></div>
+                        <div class="w-full bg-slate-900 h-1"><div class="bg-gradient-to-r from-purple-500 to-pink-500 h-1 w-[95%]"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1 font-bold"><span>BLENDER 3D MODELING</span><span>90%</span></div>
+                        <div class="w-full bg-slate-900 h-1"><div class="bg-gradient-to-r from-purple-500 to-pink-500 h-1 w-[90%]"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1 font-bold"><span>BLUEPRINT Scripting</span><span>85%</span></div>
+                        <div class="w-full bg-slate-900 h-1"><div class="bg-gradient-to-r from-purple-500 to-pink-500 h-1 w-[98%]"></div></div>
+                    </div>
+                </div>
+                <div class="mt-8 flex flex-wrap">
+                    <span class="skill-tag !border-purple-500 !text-purple-400 !bg-purple-500/10">Substance Painter</span>
+                    <span class="skill-tag !border-purple-500 !text-purple-400 !bg-purple-500/10">Gaea</span>
+                    <span class="skill-tag !border-purple-500 !text-purple-400 !bg-purple-500/10">Level Design</span>
+                    <span class="skill-tag !border-purple-500 !text-purple-400 !bg-purple-500/10">UMG UI</span>
+                </div>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl border-t-4 border-t-blue-400">
+                <h3 class="header-font text-lg font-bold mb-6 text-blue-400"><i class="fas fa-code mr-2"></i> TECH_STACK</h3>
+                <div class="flex flex-wrap mb-8">
+                    <span class="skill-tag !border-blue-500 !text-blue-400 !bg-blue-500/10">Flutter</span>
+                    <span class="skill-tag !border-blue-500 !text-blue-400 !bg-blue-500/10">Firebase (NoSQL)</span>
+                    <span class="skill-tag !border-blue-500 !text-blue-400 !bg-blue-500/10">Android Studio</span>
+                    <span class="skill-tag !border-blue-500 !text-blue-400 !bg-blue-500/10">OpenCV</span>
+                    <span class="skill-tag !border-blue-500 !text-blue-400 !bg-blue-500/10">Power BI & Tableau</span>
+                    <span class="skill-tag !border-blue-500 !text-blue-400 !bg-blue-500/10">Git</span>
+                </div>
+                <div class="mt-8 bg-black/40 p-4 rounded-lg border border-blue-900/50">
+                    <p class="text-xs text-blue-300 font-mono italic">"200+ Competitive Problems Solved on LeetCode/GFG/HackerRank."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="py-24 px-4 max-w-7xl mx-auto">
+        <div class="flex items-center gap-4 mb-16">
+            <div class="h- flex-grow bg-gradient-to-l from-cyan-600 to-transparent"></div>
+            <h2 class="header-font text-3xl md:text-4xl font-bold tracking-tighter">XP_CHRONICLES <span class="text-cyan-500">.03</span></h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-panel p-6 rounded-xl border-l-4 border-cyan-600">
+                <span class="text-xs font-bold text-cyan-500 mb-2 block uppercase tracking-widest">09/05/2025 - 09/08/2025</span>
+                <h3 class="text-xl font-bold text-white mb-1">Data Analytics Intern</h3>
+                <p class="text-sm text-cyan-400 mb-4 font-bold uppercase tracking-tight">MRG Construction</p>
+                <ul class="text-sm text-gray-300 space-y-2 list-none">
+                    <li><i class="fas fa-caret-right text-cyan-500 mr-2"></i>Leveraged MySQL for data extraction, cleaning, and management.</li>
+                    <li><i class="fas fa-caret-right text-cyan-500 mr-2"></i>Built interactive dashboards in Tableau and Power BI to track KPIs.</li>
+                    <li><i class="fas fa-caret-right text-cyan-500 mr-2"></i>Collaborated directly to design data models for project analysis.</li>
+                </ul>
+            </div>
+            
+            <div class="glass-panel p-6 rounded-xl border-l-4 border-purple-500">
+                <span class="text-xs font-bold text-purple-500 mb-2 block uppercase tracking-widest">01/06/2025 - 31/07/2025</span>
+                <h3 class="text-xl font-bold text-white mb-1">3D Modeler & Architectural Visualization Intern</h3>
+                <p class="text-sm text-purple-400 mb-4 font-bold uppercase tracking-tight">Homely Aura</p>
+                <ul class="text-sm text-gray-300 space-y-2 list-none">
+                    <li><i class="fas fa-caret-right text-purple-500 mr-2"></i>Developed real-time visualization using C++ scripting for logic.</li>
+                    <li><i class="fas fa-caret-right text-purple-500 mr-2"></i>Designed detailed 3D models based on strict client specifications.</li>
+                    <li><i class="fas fa-caret-right text-purple-500 mr-2"></i>Collaborated for requirement analysis and render output quality.</li>
+                </ul>
+            </div>
+
+            <div class="glass-panel p-6 rounded-xl border-l-4 border-blue-800">
+                <span class="text-xs font-bold text-blue-800 mb-2 block uppercase tracking-widest">Freelance / Ongoing</span>
+                <h3 class="text-xl font-bold text-white mb-1">Game Designer and Game Developer</h3>
+                <p class="text-sm text-blue-400 mb-4 font-bold uppercase tracking-tight">Independent Contractor</p>
+                <ul class="text-sm text-gray-300 space-y-2 list-none">
+                    <li><i class="fas fa-caret-right text-blue-800 mr-2"></i>Created complete 3D shooter prototype (environmental & UI design).</li>
+                    <li><i class="fas fa-caret-right text-blue-800 mr-2"></i>Designed and optimized immersive 3D models for character/environments.</li>
+                    <li><i class="fas fa-caret-right text-blue-800 mr-2"></i>Animated character cutscenes and integrated them into game engine.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="game-projects" class="py-24 px-4 max-w-7xl mx-auto">
+        <div class="flex items-center gap-4 mb-12">
+            <h2 class="header-font text-3xl md:text-4xl font-bold tracking-tighter"><span class="text-purple-400">04.</span> GAME_ARCHIVES</h2>
+            <div class="h- flex-grow bg-gradient-to-r from-purple-600 to-transparent"></div>
+        </div>
+
+        <div id="game-projects-row" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="project-row-box glass-panel p-6 flex flex-col items-center group active" data-id="game-1">
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=400" class="w-full h-32 object-cover rounded mb-4" alt="Flaws: The Shadow">
+                <h3 class="header-font text-lg font-bold uppercase tracking-wider text-white">Flaws: The Shadow</h3>
+            </div>
+            <div class="project-row-box glass-panel p-6 flex flex-col items-center group" data-id="game-2">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=400" class="w-full h-32 object-cover rounded mb-4" alt="Soul Eater">
+                <h3 class="header-font text-lg font-bold uppercase tracking-wider text-white">Soul Eater (Mobile)</h3>
+            </div>
+            <div class="project-row-box glass-panel p-6 flex flex-col items-center group" data-id="game-3">
+                <img src="https://images.unsplash.com/photo-1614294148960-9aa740632a87?auto=format&fit=crop&q=80&w=400" class="w-full h-32 object-cover rounded mb-4" alt="Happy Now">
+                <h3 class="header-font text-lg font-bold uppercase tracking-wider text-white">Happy Now 1 & 2</h3>
+            </div>
+        </div>
+
+        <div id="game-projects-desc-panel" class="descriptions-cycle-panel p-12 rounded-3xl relative min-h-[400px]">
+            <div class="absolute inset-0 bg-cover bg-center opacity-10 rounded-3xl" style="background-image: url('https://www.transparenttextures.com/patterns/cyber-pattern.png');"></div>
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="desc-text-area p-2">
+                    <span id="game-proj-date" class="font-mono text-sm tracking-widest text-purple-400">[MISSION_ARCHIVE // PC Title]</span>
+                    <h3 id="game-proj-title" class="header-font text-4xl font-bold mt-4 mb-6 uppercase tracking-wider text-white glitch-text">Flaws: The Shadow</h3>
+                    <p id="game-proj-desc" class="text-slate-300 text-lg leading-relaxed mb-8">Developed complete PC title solo. Designed all core gameplay, custom 3D environmental assets in Blender, coded interaction logic in Unreal Engine C++/Blueprints, and designed UMG UI.</p>
+                    <div id="game-proj-tech" class="flex flex-wrap gap-2">
+                        <span class="skill-tag">UE5</span> <span class="skill-tag">C++</span> <span class="skill-tag">Blender</span> <span class="skill-tag">Level Design</span>
+                    </div>
+                </div>
+                <div class="desc-image-area glass-panel p-2 rounded-2xl">
+                    <img id="game-proj-img" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=600" class="w-full h-80 object-cover rounded-xl border-2 border-purple-900 shadow-2xl" alt="Flaws: The Shadow screenshot">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tech-projects" class="py-24 px-4 max-w-7xl mx-auto distinct-area">
+        <div class="flex items-center gap-4 mb-12">
+            <div class="h- flex-grow bg-gradient-to-l from-blue-600 to-transparent"></div>
+            <h2 class="header-font text-3xl md:text-4xl font-bold tracking-tighter">TECH_ARCHIVES <span class="text-blue-500">.05</span></h2>
+        </div>
+
+        <div id="tech-projects-row" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="project-row-box glass-panel p-6 flex flex-col items-center group active !border-blue-900" data-id="tech-1">
+                <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=400" class="w-full h-32 object-cover rounded mb-4" alt="Distance System">
+                <h3 class="header-font text-lg font-bold uppercase tracking-wider text-white text-center">Distance System</h3>
+            </div>
+            <div class="project-row-box glass-panel p-6 flex flex-col items-center group !border-blue-900" data-id="tech-2">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400" class="w-full h-32 object-cover rounded mb-4" alt="Land System">
+                <h3 class="header-font text-lg font-bold uppercase tracking-wider text-white text-center">Land registration</h3>
+            </div>
+            <div class="project-row-box glass-panel p-6 flex flex-col items-center group !border-blue-900" data-id="tech-3">
+                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=400" class="w-full h-32 object-cover rounded mb-4" alt="Bus Booking">
+                <h3 class="header-font text-lg font-bold uppercase tracking-wider text-white text-center">Bus Booking System</h3>
+            </div>
+        </div>
+
+        <div id="tech-projects-desc-panel" class="descriptions-cycle-panel p-12 rounded-3xl min-h-[400px] border-blue-900">
+            <div class="z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="desc-text-area p-2">
+                    <span id="tech-proj-date" class="font-mono text-sm tracking-widest text-blue-400">[INTEL // Computer Vision]</span>
+                    <h3 id="tech-proj-title" class="header-font text-4xl font-bold mt-4 mb-6 uppercase tracking-wider text-white glitch-text">Distance System</h3>
+                    <p id="tech-proj-desc" class="text-slate-300 text-lg leading-relaxed mb-8">Engineered using Python and OpenCV. Executed functional testing and data integrity validation for backend metrics and SQL logging of distance metrics.</p>
+                    <div id="tech-proj-tech" class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Python</span> <span class="skill-tag">OpenCV</span> <span class="skill-tag">SQL Validation</span>
+                    </div>
+                </div>
+                <div class="desc-image-area glass-panel p-2 rounded-2xl border-blue-900">
+                    <img id="tech-proj-img" src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=600" class="w-full h-80 object-cover rounded-xl border-2 border-blue-900 shadow-2xl" alt="Distance Measurement System">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="achievements" class="py-12 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="header-font text-2xl md:text-3xl font-bold tracking-tighter text-cyan-400 mb-8 uppercase glitch-text text-center">UNLOCKED_ACHIEVEMENTS</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="glass-panel p-4 rounded-lg flex items-center gap-4 border-l-4 border-cyan-500">
+                    <i class="fas fa-certificate text-3xl text-cyan-400"></i>
+                    <div>
+                        <h3 class="font-bold text-sm text-gray-100 uppercase">Salesforce Trailhead</h3>
+                        <p class="text-[10px] text-cyan-400 font-bold tracking-widest uppercase">18,400 XP // 32 Badges</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg flex items-center gap-4 border-l-4 border-purple-500">
+                    <i class="fas fa-trophy text-3xl text-purple-400"></i>
+                    <div>
+                        <h3 class="font-bold text-sm text-gray-100 uppercase">C & C++ Expert</h3>
+                        <p class="text-[10px] text-purple-400 font-bold tracking-widest uppercase">Sololearn Academy</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg flex items-center gap-4 border-l-4 border-blue-500">
+                    <i class="fas fa-brain text-3xl text-blue-400"></i>
+                    <div>
+                        <h3 class="font-bold text-sm text-gray-100 uppercase">ML Specialist</h3>
+                        <p class="text-[10px] text-blue-400 font-bold tracking-widest uppercase">Infosys Springboard</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-lg flex items-center gap-4 border-l-4 border-red-500">
+                    <i class="fas fa-chart-line text-3xl text-red-400"></i>
+                    <div>
+                        <h3 class="font-bold text-sm text-gray-100 uppercase">Analytics Certified</h3>
+                        <p class="text-[10px] text-red-400 font-bold tracking-widest uppercase">Google Analytics & Ads</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-12 px-4">
+        <div class="max-w-3xl mx-auto text-center glass-panel p-8 md:p-12 rounded-[2rem] border-cyan-600 border-dashed border-2">
+            <h2 class="header-font text-3xl md:text-4xl font-black mb-4 uppercase text-white glitch-text">ESTABLISH_COMMS</h2>
+            
+            <p class="text-gray-400 text-sm md:text-base leading-relaxed mb-8 uppercase tracking-widest">
+                Based in <span class="text-cyan-400">Bihar, India</span>. Open for <span class="text-cyan-400">SWE Intern</span> or Game Dev roles.
+            </p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-200 font-bold uppercase tracking-tighter text-xs text-left max-w-xl mx-auto mb-8">
+                <div class="flex items-center gap-3 bg-black/30 p-3 rounded-md border border-cyan-900/50">
+                    <i class="fas fa-envelope text-cyan-500"></i> 
+                    <a href="mailto:shivanshkumarsingh744@gmail.com" class="hover:text-cyan-400 truncate">shivanshkumarsingh744@gmail.com</a>
+                </div>
+                <div class="flex items-center gap-3 bg-black/30 p-3 rounded-md border border-indigo-900/50">
+                    <i class="fab fa-discord text-indigo-500"></i> 
+                    <a href="https://discord.com/users/1126029006198820965" target="_blank" class="hover:text-indigo-400 transition-colors">DISCORD</a>
+                </div>
+            </div>
+            
+            <p class="text-[9px] text-red-900 font-mono font-bold uppercase opacity-60">B.Tech CSE Class of 2026 | System Offline.</p>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center border-t border-cyan-900/30">
+        <p class="text-xs text-slate-700 uppercase tracking-widest">v4.0 // ARCHITECTED BY SHIVANSH K. SINGH // ALL Rights Reserved.</p>
+    </footer>
+
+    <script>
+    // Data Structures for Cycling Projects combined
+    const gameProjectsData = [
+        { id: 'game-1', date: '[MISSION_ARCHIVE // PC Title]', title: 'Flaws: The Shadow', desc: 'developed complete PC title solo. Designed all core gameplay, custom 3D assets in Blender, coded interaction logic in Unreal Engine C++/Blueprints, and designed UMG UI.', tech: ['UE5', 'C++', 'Blender', 'Level Design'], img: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=600' },
+        { id: 'game-2', date: '[MISSION_ARCHIVE // Mobile Publishing]', title: 'Soul Eater', desc: 'Developed and designed a 3D mobile game from concept to final release. Programmed mechanics, interactive levels using Blueprints, Engineered main menu UI and optimized mobile performance.', tech: ['Blueprints', 'PlayStore Publishing', 'UMG UI', 'Optimization'], img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=600' },
+        { id: 'game-3', date: '[MISSION_ARCHIVE // 2D Puzzle Mobile]', title: 'Happy Now 1 & 2', desc: 'developed engaging 2D puzzle games published on PlayStore. Implemented a custom Sequence System to handle real-time logic updates and dynamic gameplay state changes.', tech: ['Blueprint', 'Puzzle Logic', 'Sequencing'], img: 'https://images.unsplash.com/photo-1614294148960-9aa740632a87?auto=format&fit=crop&q=80&w=600' }
+    ];
+
+    const techProjectsData = [
+        { id: 'tech-1', date: '[INTEL_ARCHIVE // Computer Vision]', title: 'Distance System', desc: 'Created real-time distance measurement using camera using Python and OpenCV. Executed functional testing and data integrity validation for backend metrics and manual logging.', tech: ['Python', 'OpenCV', 'SQL Validation'], img: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=600' },
+        { id: 'tech-2', date: '[INTEL_ARCHIVE // Mobile App Dev]', title: 'Land registration System', desc: 'Simulated creation of production-grade mobile UI flows using Flutter and Firebase NoSQL. Validated Firestore data for accuracy and updates. Designed test scenarios for document upload and authentication.', tech: ['Flutter', 'Firebase', 'NoSQL', 'Testing'], img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600' },
+        { id: 'tech-3', date: '[INTEL_ARCHIVE // Backend architecture]', title: 'Bus Booking System', desc: 'Created production-grade booking system workflow logic with Python. Executed SQL queries for backend validation of the entire booking flow, seat reservation, payment, and error handling.', tech: ['Backend', 'Python', 'SQL Validation'], img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=600' }
+    ];
+
+    // Fixed cycling function
+    function cycleProjects(sectionPrefix, dataArray, intervalTime = 5000) {
+        let currentIndex = 0;
+        const rowBoxes = document.querySelectorAll(`#${sectionPrefix}-projects-row .project-row-box`);
+        const descPanel = document.getElementById(`${sectionPrefix}-projects-desc-panel`);
+        
+        let cycleInterval;
+
+        function updateDisplay(indexToShow) {
+            // Fade out panel
+            descPanel.classList.add('fade');
+            // Remove active class from all boxes
+            rowBoxes.forEach(box => box.classList.remove('active'));
+
+            setTimeout(() => {
+                const project = dataArray[indexToShow];
+                document.getElementById(`${sectionPrefix}-proj-date`).textContent = project.date;
+                document.getElementById(`${sectionPrefix}-proj-title`).textContent = project.title;
+                document.getElementById(`${sectionPrefix}-proj-desc`).textContent = project.desc;
+                document.getElementById(`${sectionPrefix}-proj-img`).src = project.img;
+                document.getElementById(`${sectionPrefix}-proj-img`).alt = project.title;
+                
+                // Update tags
+                const techTagArea = document.getElementById(`${sectionPrefix}-proj-tech`);
+                techTagArea.innerHTML = '';
+                project.tech.forEach(tag => {
+                    const span = document.createElement('span');
+                    span.className = 'skill-tag';
+                    span.textContent = tag;
+                    techTagArea.appendChild(span);
+                });
+
+                // Update active box
+                const activeBox = document.querySelector(`#${sectionPrefix}-projects-row .project-row-box[data-id="${project.id}"]`);
+                if(activeBox) activeBox.classList.add('active');
+                
+                // Fade back in
+                descPanel.classList.remove('fade');
+            }, 500); 
+        }
+
+        function startInterval() {
+            cycleInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % dataArray.length;
+                updateDisplay(currentIndex);
+            }, intervalTime);
+        }
+
+        // Box Hover interaction
+        rowBoxes.forEach((box, index) => {
+            box.addEventListener('mouseover', () => {
+                clearInterval(cycleInterval); // Stop auto-cycling
+                currentIndex = index; // Sync index
+                updateDisplay(currentIndex); // Jump to this project
+            });
+
+            box.addEventListener('mouseout', () => {
+                startInterval(); // Resume cycling when mouse leaves
+            });
+        });
+
+        // Initialize first run
+        startInterval();
+    }
+
+    // Initialize cycling for both sections
+    cycleProjects('game', gameProjectsData);
+    cycleProjects('tech', techProjectsData);
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Background particles
+    tsParticles.load("bg-canvas", {
+        background: { color: { value: "transparent" } },
+        particles: {
+            color: { value: ["#00f2ff", "#bc13fe", "#020617"] },
+            links: { color: "#00f2ff", distance: 150, enable: true, opacity: 0.1, width: 1 },
+            move: { enable: true, speed: 1.5, direction: "none", random: true, straight: false, outModes: "out" },
+            number: { density: { enable: true, area: 800 }, value: 60 },
+            opacity: { value: 0.5, random: true },
+            shape: { type: "circle" },
+            size: { value: { min: 1, max: 3 }, random: true }
+        },
+        detectRetina: true
+    });
+</script>
+</body>
+</html>
